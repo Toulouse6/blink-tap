@@ -1,0 +1,109 @@
+.leaderboard-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 6rem 1rem;
+    margin: 0;
+    min-height: 100vh;
+    width: 100%;
+    background-color: #f5f6fa;
+}
+
+.leaderboard-title {
+    margin-bottom: 2rem;
+    letter-spacing: 3px;
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #4E8772;
+    text-align: center;
+}
+
+/* Table wrapper */
+.leaderboard-table {
+    width: 100%;
+    max-width: 800px;
+    border-radius: 16px;
+    overflow: hidden;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+}
+
+/* Table header */
+.leaderboard-table thead tr {
+    background-color: #e8eaf6;
+}
+
+.leaderboard-table thead th {
+    padding: 14px;
+    font-size: 20px;
+    font-weight: 500;
+    color: #2e2e2e;
+    text-align: center;
+    border-bottom: 1px solid #c5cae9;
+}
+
+.leaderboard-table thead th:first-child {
+    border-left: none;
+}
+
+/* Table body */
+
+.leaderboard-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.leaderboard-table tbody td:first-child {
+    border-left: none;
+}
+
+.leaderboard-table tbody td:last-child {
+    border-right: none;
+}
+
+.leaderboard-table tbody td {
+    font-size: 22px;
+    color: #2e2e2e;
+    padding: 14px;
+    font-weight: 400;
+    border-bottom: 1px solid #eeeeee;
+    text-align: center;
+    background-color: #ffffff;
+}
+
+.leaderboard-table tbody tr:hover {
+    background-color: #f4f6fc;
+}
+
+/* Winner row */
+.first-place-row td {
+    color: #4E8772 !important;
+    font-weight: 600;
+    background-color: #f1f8e9;
+}
+
+.crown-icon {
+    width: 25px;
+    height: auto;
+    margin: 0 0px 4px 0;
+    vertical-align: middle;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .leaderboard-title {
+        font-size: 28px;
+    }
+
+    .leaderboard-table thead th,
+    .leaderboard-table tbody td {
+        font-size: 16px;
+        padding: 10px;
+    }
+
+    .crown-icon {
+        width: 20px;
+    }
+
+}

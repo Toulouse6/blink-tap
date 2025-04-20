@@ -1,0 +1,26 @@
+.game-header {
+    height: 40px;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0px;
+    font-weight: 500;
+    font-size: 24px;
+    background: white;
+    border-bottom: 1px solid #ccc;
+    border-radius: 15px 15px 0 0;
+    box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.3);
+    width: 100%;
+}
+
+.center-content {
+    justify-content: center;
+    gap: 0;
+}
+
+/* Username */
+.header-username, .header-score {
+    color: #212721;
+    margin: 0 2rem;
+}

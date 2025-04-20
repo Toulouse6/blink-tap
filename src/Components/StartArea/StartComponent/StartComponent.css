@@ -1,0 +1,93 @@
+.start-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Title */
+.start-title {
+    color: #4E8772;
+    margin: -20rem 0 1.5rem 0;
+    font-weight: 600;
+    font-size: 2.5rem;
+    letter-spacing: 3px;
+}
+
+/* White box */
+.start-container {
+    display: flex;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    align-items: end;
+    gap: 1rem;
+    max-width: 500px;
+    width: 100%;
+}
+
+/* Input wrapper */
+.input-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+/* Label */
+.start-label {
+    font-size: 16px;
+    color: #212721;
+    font-weight: 300;
+    margin: -5px 0 20px 0;
+}
+
+/* Input */
+.start-input input {
+    color: #212721 !important;
+    border-color: #969894 !important;
+    font-weight: 300;
+    padding: 4px 12px !important;
+    max-height: 36px !important;
+    text-align: left;
+    font-style: normal !important;
+}
+
+.start-input .MuiOutlinedInput-root {
+    border-radius: 8px !important;
+    font-size: 16px !important;
+    background-color: white;
+
+}
+
+/* Input placeholder */
+.start-input input::placeholder {
+    font-style: italic;
+    color: #969894;
+    border-color: #969894 !important;
+
+}
+
+.start-input .MuiOutlinedInput-notchedOutline {
+    border-color: #969894 !important;
+}
+
+.start-input .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline,
+.start-input .Mui-focused .MuiOutlinedInput-notchedOutline,
+.start-input.filled .MuiOutlinedInput-root {
+    border-color: #212721 !important;
+
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+
+    .start-container {
+        max-width: 400px;
+    }
+
+}

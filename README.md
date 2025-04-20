@@ -1,4 +1,4 @@
-# BlinkTap Game
+# Welcome to BlinkTap
 
 <img align="right" src="./src/Assets/screenshot.png" alt="BlinkTap Screenshot" width="350">
 
@@ -35,7 +35,7 @@ https://github.com/Toulouse6/blink-tap/
 
 ## Leaderboard
 
-At the end of your run, your score is submitted to the global leaderboard, showing the top 5 players. Try again to beat them!
+At the end of your run, your score is submitted to the global leaderboard, showing the top 5 players. Try to beat them!
 
 ---
 

@@ -73,8 +73,13 @@ body {
     cursor: not-allowed;
 }
 
+
 /* Mobile */
 @media(max-width: 450px) {
+
+    .outer-wrapper {
+        margin: 3rem 0 1rem 0 !important;
+    }
 
     .start-container {
         max-width: 75% !important;
@@ -95,7 +100,6 @@ body {
     .highscore-button {
         max-height: 35px !important;
         font-size: 13px !important;
-   
     }
 
     .game-header {
@@ -109,6 +113,11 @@ body {
         letter-spacing: 1px !important;
     }
 
+    .gameover-container,
+    .game-container {
+        height: 85vh !important;
+    }
+
     .gameover-title {
         margin: 5rem 0 -10px 0 !important;
     }
@@ -119,18 +128,17 @@ body {
         font-size: 13px !important;
     }
 
-    /* Left */
     .shape-zone:first-child {
-        padding: 0 0 0 40px !important;
+        padding-left: 40px !important;
     }
 
-    /* Right */
     .shape-zone:last-child {
-        padding: 0 40px 0 0 !important;
+        padding-right: 40px !important;
     }
 
     .shape-image {
-        width: 90px !important;
+        width: 85px !important;
+        max-width: 100px !important;
     }
 
     .score span {
@@ -149,6 +157,5 @@ body {
     .leaderboard-table tbody td {
         font-size: 13px !important;
     }
-
 
 }

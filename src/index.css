@@ -2,9 +2,10 @@ html,
 body {
     margin: 0;
     padding: 0;
+    width: 100%;
     height: 100%;
     background-color: #f5f6fa;
-        font-family: 'Inter', sans-serif;
+    font-family: 'Inter', sans-serif;
     overflow: hidden;
 }
 
@@ -55,7 +56,9 @@ body {
     text-transform: capitalize !important;
     font-weight: 300 !important;
     border-radius: 8px !important;
-    height: 36px !important;
+    height: 45px !important;
+    padding: 0 1rem !important;
+    white-space: nowrap;
 }
 
 /* Hover */
@@ -68,4 +71,84 @@ body {
     background-color: #494d48 !important;
     color: #cccccc !important;
     cursor: not-allowed;
+}
+
+/* Mobile */
+@media(max-width: 450px) {
+
+    .start-container {
+        max-width: 75% !important;
+    }
+
+    .start-label {
+        font-size: 13px !important;
+        white-space: nowrap !important;
+        margin: 0 0 13px 0 !important;
+    }
+
+    .material-button {
+        font-size: 13px !important;
+        padding: 1rem 2rem !important;
+        max-height: 35px !important;
+    }
+
+    .highscore-button {
+        max-height: 35px !important;
+        font-size: 13px !important;
+   
+    }
+
+    .game-header {
+        font-size: 16px !important;
+    }
+
+    .start-title,
+    .gameover-title,
+    .leaderboard-title {
+        font-size: 1.8rem !important;
+        letter-spacing: 1px !important;
+    }
+
+    .gameover-title {
+        margin: 5rem 0 -10px 0 !important;
+    }
+
+    .start-input input {
+        padding: 0 12px !important;
+        max-height: 28px !important;
+        font-size: 13px !important;
+    }
+
+    /* Left */
+    .shape-zone:first-child {
+        padding: 0 0 0 40px !important;
+    }
+
+    /* Right */
+    .shape-zone:last-child {
+        padding: 0 40px 0 0 !important;
+    }
+
+    .shape-image {
+        width: 90px !important;
+    }
+
+    .score span {
+        font-size: 20px !important;
+    }
+
+    .leaderboard-container {
+        max-width: 90% !important;
+        padding: 5rem 1rem !important;
+    }
+
+    .leaderboard-table thead th {
+        font-size: 15px !important;
+    }
+
+    .leaderboard-table tbody td {
+        font-size: 13px !important;
+    }
+
+
 }

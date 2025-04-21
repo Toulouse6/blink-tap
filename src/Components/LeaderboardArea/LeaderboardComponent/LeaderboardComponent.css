@@ -91,9 +91,15 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 950px) {
+
     .leaderboard-title {
         font-size: 28px;
+    }
+
+    .leaderboard-container {
+        margin: 0 5px;
+        max-width: 92%;
     }
 
     .leaderboard-table thead th,

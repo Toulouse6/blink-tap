@@ -193,13 +193,13 @@ const GameComponent: React.FC = () => {
 
 
     // Mobile Taps
-
     const handleTap = (clickedSide: 'left' | 'right') => {
         const now = Date.now();
         const currentSide = sideRef.current;
-
+    
         if (!isGameActiveRef.current) return;
-
+    
+        // Too soon
         if (!isReadyRef.current) {
             isGameActiveRef.current = false;
             clearAllTimeouts();
@@ -208,42 +208,43 @@ const GameComponent: React.FC = () => {
             sendScoreAndRedirect(scoreRef.current);
             return;
         }
-
+    
         if (!currentSide) {
-            isGameActiveRef.current = false;
-            setFeedback('wrongKey');
-            setGameOver(true);
-            sendScoreAndRedirect(scoreRef.current);
+            // Safety fallback
             return;
         }
-
+    
+        // Mark input received
         keypressRegisteredRef.current = true;
-
-        // Mark round responded
         isReadyRef.current = false;
+    
         const reactionTime = now - targetDisplayedTimeRef.current;
         setResponseTime(reactionTime);
-
-        if ((clickedSide === 'left' && currentSide === 'left') || (clickedSide === 'right' && currentSide === 'right')) {
+    
+        // Correct side tapped
+        if ((clickedSide === 'left' && currentSide === 'left') ||
+            (clickedSide === 'right' && currentSide === 'right')) {
+    
             setShowSuccessSide(currentSide);
             setTimeout(() => setShowSuccessSide(null), 2000);
-
+    
             setScore(prev => {
                 const newScore = prev + 1;
                 scoreRef.current = newScore;
                 return newScore;
             });
-
+    
             setFeedback('success');
             timeoutRefs.current.nextRound = setTimeout(() => startNextRound(), 2000);
+    
         } else {
+            // Wrong side tapped
             isGameActiveRef.current = false;
             setFeedback('wrongKey');
             setGameOver(true);
             sendScoreAndRedirect(scoreRef.current);
         }
     };
-
 
     // Return
     return (

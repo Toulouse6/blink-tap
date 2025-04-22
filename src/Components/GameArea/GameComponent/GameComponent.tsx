@@ -193,13 +193,15 @@ const GameComponent: React.FC = () => {
         };
     }, []);
 
+
     // Mobile Taps
+
     const handleTap = (clickedSide: 'left' | 'right') => {
         const now = Date.now();
         const currentSide = sideRef.current;
-    
+
         if (!isGameActiveRef.current) return;
-    
+
         // Too soon
         if (!isReadyRef.current) {
             keypressRegisteredRef.current = true;
@@ -210,8 +212,8 @@ const GameComponent: React.FC = () => {
             sendScoreAndRedirect(scoreRef.current);
             return;
         }
-    
-        // Invalid state
+
+        // No valid side available
         if (!currentSide) {
             keypressRegisteredRef.current = true;
             isGameActiveRef.current = false;
@@ -220,33 +222,34 @@ const GameComponent: React.FC = () => {
             sendScoreAndRedirect(scoreRef.current);
             return;
         }
-    
-        // Reaction time mobile
+
+        // Mark round responded
         isReadyRef.current = false;
         keypressRegisteredRef.current = true;
         const reactionTime = now - targetDisplayedTimeRef.current;
         setResponseTime(reactionTime);
-    
+
         if ((clickedSide === 'left' && currentSide === 'left') || (clickedSide === 'right' && currentSide === 'right')) {
             setShowSuccessSide(currentSide);
             setTimeout(() => setShowSuccessSide(null), 2000);
-    
+
             setScore(prev => {
                 const newScore = prev + 1;
                 scoreRef.current = newScore;
                 return newScore;
             });
-    
+
             setFeedback('success');
             timeoutRefs.current.nextRound = setTimeout(() => startNextRound(), 2000);
         } else {
+            // Wrong side
             isGameActiveRef.current = false;
             setFeedback('wrongKey');
             setGameOver(true);
             sendScoreAndRedirect(scoreRef.current);
         }
     };
-    
+
     // Return
     return (
 

@@ -196,7 +196,7 @@ const GameComponent: React.FC = () => {
         timeoutRefs.current.nextRound = setTimeout(() => startNextRound(), 2000);
     };
 
-    // Wrong side OR too soon (Mobile background tap)
+    // Wrong side OR too soon (Mobile)
     const handleBackgroundTap = () => {
         if (!isGameActiveRef.current) return;
 

@@ -235,6 +235,7 @@ const GameComponent: React.FC = () => {
                             }
                         }}
                         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                        style={{ bottom: '10rem' }} 
                     >
                         <Alert
                             severity={

@@ -2,7 +2,7 @@
     height: 40px;
     z-index: 1000;
     display: flex;
-    justify-content: space-between;
+
     align-items: center;
     padding: 10px 0px;
     font-weight: 500;
@@ -14,15 +14,26 @@
     width: 100%;
 }
 
-.center-content {
-    justify-content: center;
-    gap: 0;
-}
-
 /* Username */
 .header-username,
 .header-score,
 .header-reaction {
     color: #212721;
-    margin: 0 2rem;
+    width: 100%;
+    margin: 0;
+}
+
+.header-username {
+    text-align: left;
+    padding-left: 2.5rem;
+}
+
+.header-score {
+    text-align: right;
+    padding-right: 2.5rem;
+}
+
+.header-reaction {
+    position: absolute;
+    text-align: center;
 }

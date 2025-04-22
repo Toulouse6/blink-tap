@@ -16,10 +16,10 @@ const GameComponent: React.FC = () => {
     // UI state
     const [score, setScore] = useState(0);
     const [side, setSide] = useState<Side | null>(null);
+    const [, setResponseTime] = useState<number | null>(null);
     const [showSuccessSide, setShowSuccessSide] = useState<Side | null>(null);
     const [feedback, setFeedback] = useState('');
     const [gameOver, setGameOver] = useState(false);
-    const [, setResponseTime] = useState<number | null>(null);
     const [loading, setLoading] = useState(false);
 
     // Get stored username
@@ -127,7 +127,6 @@ const GameComponent: React.FC = () => {
         const key = e.key.toLowerCase();
         const now = Date.now();
         const currentSide = sideRef.current;
-        keypressRegisteredRef.current = true;
 
         if (!isGameActiveRef.current) return;
 
@@ -135,7 +134,7 @@ const GameComponent: React.FC = () => {
         if (!isReadyRef.current) {
             isGameActiveRef.current = false;
             clearAllTimeouts();
-            setFeedback((key === 'a' || key === 'd') ? 'tooSoon' : 'wrongKey');
+            setFeedback('tooSoon');
             setGameOver(true);
             sendScoreAndRedirect(scoreRef.current);
             return;
@@ -150,9 +149,9 @@ const GameComponent: React.FC = () => {
             return;
         }
 
-        // Calculate reaction time
-        isReadyRef.current = false;
         keypressRegisteredRef.current = true;
+
+        isReadyRef.current = false;
         const reactionTime = now - targetDisplayedTimeRef.current;
         setResponseTime(reactionTime);
 
@@ -166,17 +165,16 @@ const GameComponent: React.FC = () => {
                 scoreRef.current = newScore;
                 return newScore;
             });
+
             setFeedback('success');
             timeoutRefs.current.nextRound = setTimeout(() => startNextRound(), 2000);
         } else {
-            // Wrong Key
             isGameActiveRef.current = false;
             setFeedback('wrongKey');
             setGameOver(true);
             sendScoreAndRedirect(scoreRef.current);
         }
     };
-
 
     // Set up listeners and start first round
     useEffect(() => {
@@ -202,9 +200,7 @@ const GameComponent: React.FC = () => {
 
         if (!isGameActiveRef.current) return;
 
-        // Too soon
         if (!isReadyRef.current) {
-            keypressRegisteredRef.current = true;
             isGameActiveRef.current = false;
             clearAllTimeouts();
             setFeedback('tooSoon');
@@ -213,9 +209,7 @@ const GameComponent: React.FC = () => {
             return;
         }
 
-        // No valid side available
         if (!currentSide) {
-            keypressRegisteredRef.current = true;
             isGameActiveRef.current = false;
             setFeedback('wrongKey');
             setGameOver(true);
@@ -223,9 +217,10 @@ const GameComponent: React.FC = () => {
             return;
         }
 
+        keypressRegisteredRef.current = true;
+
         // Mark round responded
         isReadyRef.current = false;
-        keypressRegisteredRef.current = true;
         const reactionTime = now - targetDisplayedTimeRef.current;
         setResponseTime(reactionTime);
 
@@ -242,13 +237,13 @@ const GameComponent: React.FC = () => {
             setFeedback('success');
             timeoutRefs.current.nextRound = setTimeout(() => startNextRound(), 2000);
         } else {
-            // Wrong side
             isGameActiveRef.current = false;
             setFeedback('wrongKey');
             setGameOver(true);
             sendScoreAndRedirect(scoreRef.current);
         }
     };
+
 
     // Return
     return (
@@ -298,7 +293,7 @@ const GameComponent: React.FC = () => {
                                 <img
                                     src={showSuccessSide === 'left' ? leftSuccessImg : leftImg}
                                     alt="Left Shape"
-                                    className="shape-image"
+                                    className={`shape-image ${!isReadyRef.current ? 'disabled' : ''}`}
                                     onClick={() => handleTap('left')}
                                 />
                             )}
@@ -309,7 +304,7 @@ const GameComponent: React.FC = () => {
                                 <img
                                     src={showSuccessSide === 'right' ? rightSuccessImg : rightImg}
                                     alt="Right Shape"
-                                    className="shape-image"
+                                    className={`shape-image ${!isReadyRef.current ? 'disabled' : ''}`}
                                     onClick={() => handleTap('right')}
                                 />
                             )}

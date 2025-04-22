@@ -52,6 +52,12 @@
     padding: 0 300px 0 0;
 }
 
+/* Shape Disable */
+.shape-image.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }  
+
 
 @media (max-width: 1300px) {
 

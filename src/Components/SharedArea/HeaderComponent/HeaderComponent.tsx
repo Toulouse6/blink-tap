@@ -1,24 +1,31 @@
 import React from 'react';
 import './HeaderComponent.css';
+import { GameHeaderProps } from '../../../Models/GameModel';
 
-interface GameHeaderProps {
-    username?: string;
-    score?: number;
-    showScore?: boolean;
-}
+const storedUsername = localStorage.getItem('username') || 'Player Name';
 
 const HeaderComponent: React.FC<GameHeaderProps> = ({
-    username = 'Player Name',
+    username = storedUsername,
     score,
-    showScore = true
+    showScore = true,
+    reactionTime,
+    feedback
 }) => {
+
     const isCentered = !showScore || typeof score !== 'number';
 
     return (
         <div className={`game-header ${isCentered ? 'center-content' : ''}`}>
+            {/* Username */}
             <span className="header-username">{username}</span>
+
+            {/* Reaction Time on success */}
+            {feedback === 'success' && reactionTime !== null && (
+                <span className="header-reaction">⚡ {reactionTime}ms</span>
+            )}
+            {/* Score */}
             {showScore && typeof score === 'number' && (
-                <span className="header-score">Score {score}</span>
+                <span className="header-score">{score}</span>
             )}
         </div>
     );

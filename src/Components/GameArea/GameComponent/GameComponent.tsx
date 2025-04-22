@@ -16,7 +16,7 @@ const GameComponent: React.FC = () => {
     // UI state
     const [score, setScore] = useState(0);
     const [side, setSide] = useState<Side | null>(null);
-    const [, setResponseTime] = useState<number | null>(null);
+    const [reactionTime, setReactionTime] = useState<number | null>(null);
     const [showSuccessSide, setShowSuccessSide] = useState<Side | null>(null);
     const [feedback, setFeedback] = useState('');
     const [gameOver, setGameOver] = useState(false);
@@ -42,48 +42,25 @@ const GameComponent: React.FC = () => {
         nextRound: null
     });
 
-    // Clear Timeouts before starting a new round
-    const clearAllTimeouts = () => {
-        Object.values(timeoutRefs.current).forEach(timeout => {
-            if (timeout) clearTimeout(timeout);
-        });
-        timeoutRefs.current = { display: null, timeout: null, nextRound: null };
+    const onShapeClick = (side: 'left' | 'right') => (e: React.MouseEvent) => {
+        e.stopPropagation();
+        handleTap(side);
     };
 
-    // Send Score and navigate to Game Over
+    // Save score and navigate to Game Over
     const sendScoreAndRedirect = async (score: number) => {
         const { userId, username } = GameService.getStoredUser();
-        if (!userId) {
-            console.error('No userId found in localStorage');
-            return;
-        }
+        if (!userId) return;
 
-        // Set Loading
         setLoading(true);
-        try {
-            const res = await GameService.saveScore(userId, score);
-
-            if (res.success) {
-                // Leave fail note for 2 sec
-                await GameService.delay(2000);
-                // Redirect
-                navigate('/gameover', {
-                    state: { score, username },
-                });
-            } else {
-                console.error('Score not saved:', res);
-            }
-        } catch (err) {
-            console.error('Error sending score:', err);
-        } finally {
-            setLoading(false);
-        }
+        await GameService.sendScoreAndRedirect(userId, score, username, navigate);
+        setLoading(false);
     };
 
     // Next round set up
     const startNextRound = () => {
 
-        clearAllTimeouts();
+        GameService.clearTimeouts(timeoutRefs);
         setSide(null);
         setFeedback('');
 
@@ -133,7 +110,7 @@ const GameComponent: React.FC = () => {
         // Too soon
         if (!isReadyRef.current) {
             isGameActiveRef.current = false;
-            clearAllTimeouts();
+            GameService.clearTimeouts(timeoutRefs);
             setFeedback('tooSoon');
             setGameOver(true);
             sendScoreAndRedirect(scoreRef.current);
@@ -153,7 +130,7 @@ const GameComponent: React.FC = () => {
 
         isReadyRef.current = false;
         const reactionTime = now - targetDisplayedTimeRef.current;
-        setResponseTime(reactionTime);
+        setReactionTime(reactionTime);
 
         // Successes
         if ((key === 'a' && currentSide === 'left') || (key === 'd' && currentSide === 'right')) {
@@ -186,7 +163,7 @@ const GameComponent: React.FC = () => {
 
         return () => {
             window.removeEventListener('keydown', handleKeyPressWrapper);
-            clearAllTimeouts();
+            GameService.clearTimeouts(timeoutRefs);
             isGameActiveRef.current = false;
         };
     }, []);
@@ -196,54 +173,40 @@ const GameComponent: React.FC = () => {
     const handleTap = (clickedSide: 'left' | 'right') => {
         const now = Date.now();
         const currentSide = sideRef.current;
-    
-        if (!isGameActiveRef.current) return;
-    
-        // Too soon
-        if (!isReadyRef.current) {
-            isGameActiveRef.current = false;
-            clearAllTimeouts();
-            setFeedback('tooSoon');
-            setGameOver(true);
-            sendScoreAndRedirect(scoreRef.current);
-            return;
-        }
-    
-        if (!currentSide) {
-            // Safety fallback
-            return;
-        }
-    
-        // Mark input received
+
+        if (!isGameActiveRef.current || !isReadyRef.current || !currentSide) return;
+
+        // Valid tap received
         keypressRegisteredRef.current = true;
         isReadyRef.current = false;
-    
+
         const reactionTime = now - targetDisplayedTimeRef.current;
-        setResponseTime(reactionTime);
-    
-        // Correct side tapped
-        if ((clickedSide === 'left' && currentSide === 'left') ||
-            (clickedSide === 'right' && currentSide === 'right')) {
-    
-            setShowSuccessSide(currentSide);
-            setTimeout(() => setShowSuccessSide(null), 2000);
-    
-            setScore(prev => {
-                const newScore = prev + 1;
-                scoreRef.current = newScore;
-                return newScore;
-            });
-    
-            setFeedback('success');
-            timeoutRefs.current.nextRound = setTimeout(() => startNextRound(), 2000);
-    
-        } else {
-            // Wrong side tapped
-            isGameActiveRef.current = false;
-            setFeedback('wrongKey');
-            setGameOver(true);
-            sendScoreAndRedirect(scoreRef.current);
-        }
+        setReactionTime(reactionTime);
+
+        setShowSuccessSide(currentSide);
+        setTimeout(() => setShowSuccessSide(null), 2000);
+
+        setScore(prev => {
+            const newScore = prev + 1;
+            scoreRef.current = newScore;
+            return newScore;
+        });
+
+        setFeedback('success');
+        timeoutRefs.current.nextRound = setTimeout(() => startNextRound(), 2000);
+    };
+
+    // Wrong side tapped
+    const handleBackgroundTap = () => {
+        if (!isGameActiveRef.current || !isReadyRef.current) return;
+
+        keypressRegisteredRef.current = true;
+        isReadyRef.current = false;
+        isGameActiveRef.current = false;
+
+        setFeedback('wrongKey');
+        setGameOver(true);
+        sendScoreAndRedirect(scoreRef.current);
     };
 
     // Return
@@ -253,7 +216,13 @@ const GameComponent: React.FC = () => {
             <div className="game-container">
 
                 <LoadingBar loading={loading} />
-                <GameHeader username={username} score={score} />
+
+                <GameHeader
+                    username={username}
+                    score={score}
+                    reactionTime={reactionTime}
+                    feedback={feedback}
+                />
 
                 {/* Feedback */}
                 {feedback && (
@@ -288,31 +257,29 @@ const GameComponent: React.FC = () => {
 
                 {!loading && (
 
-                    <div className="game-box">
+                    <div className="game-box" onClick={handleBackgroundTap}>
                         <div className="shape-zone">
                             {side === 'left' && !gameOver && (
                                 <img
                                     src={showSuccessSide === 'left' ? leftSuccessImg : leftImg}
                                     alt="Left Shape"
-                                    className={`shape-image ${!isReadyRef.current ? 'disabled' : ''}`}
-                                    onClick={() => handleTap('left')}
+                                    className="shape-image"
+                                    onClick={onShapeClick('left')}
                                 />
                             )}
-
                         </div>
                         <div className="shape-zone">
                             {side === 'right' && !gameOver && (
                                 <img
                                     src={showSuccessSide === 'right' ? rightSuccessImg : rightImg}
                                     alt="Right Shape"
-                                    className={`shape-image ${!isReadyRef.current ? 'disabled' : ''}`}
-                                    onClick={() => handleTap('right')}
+                                    className="shape-image"
+                                    onClick={onShapeClick('right')}
+
                                 />
                             )}
-
                         </div>
                     </div>
-
                 )}
             </div>
         </div>

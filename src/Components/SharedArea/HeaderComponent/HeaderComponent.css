@@ -20,7 +20,14 @@
 }
 
 /* Username */
-.header-username, .header-score {
+.header-username,
+.header-score {
     color: #212721;
     margin: 0 2rem;
+}
+
+.header-reaction {
+    margin-left: 1rem;
+    font-size: 1rem;
+    color: #888;
 }

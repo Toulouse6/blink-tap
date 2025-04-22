@@ -78,7 +78,7 @@ body {
 @media(max-width: 450px) {
 
     .outer-wrapper {
-        margin: 3rem 0 1rem 0 !important;
+        margin: 1rem 0 1rem 0 !important;
     }
 
     .start-container {
@@ -119,7 +119,7 @@ body {
     }
 
     .gameover-title {
-        margin: 5rem 0 -10px 0 !important;
+        margin: 5rem 0 -20px 0 !important;
     }
 
     .start-input input {

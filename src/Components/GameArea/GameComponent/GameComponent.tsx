@@ -196,18 +196,25 @@ const GameComponent: React.FC = () => {
         timeoutRefs.current.nextRound = setTimeout(() => startNextRound(), 2000);
     };
 
-    // Wrong side tapped
+    // Wrong side OR too soon (Mobile background tap)
     const handleBackgroundTap = () => {
-        if (!isGameActiveRef.current || !isReadyRef.current) return;
+        if (!isGameActiveRef.current) return;
 
+        const wasTooSoon = !isReadyRef.current;
         keypressRegisteredRef.current = true;
         isReadyRef.current = false;
         isGameActiveRef.current = false;
 
-        setFeedback('wrongKey');
+        if (wasTooSoon) {
+            setFeedback('tooSoon');
+        } else {
+            setFeedback('wrongKey');
+        }
+
         setGameOver(true);
         sendScoreAndRedirect(scoreRef.current);
     };
+
 
     // Return
     return (
@@ -235,7 +242,7 @@ const GameComponent: React.FC = () => {
                             }
                         }}
                         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-                        style={{ bottom: '10rem' }} 
+                        style={{ bottom: '10rem' }}
                     >
                         <Alert
                             severity={

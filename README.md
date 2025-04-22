@@ -17,19 +17,19 @@ https://github.com/Toulouse6/blink-tap/
 ## How to Play
 
 1. Enter your name and click **Start Game**.
-2. A shape appears randomly on the left** or right side.
-3. Press:
-   - `A` for left
-   - `D` for right
-4. You must respond **within 1 second**.
+2. A shape appears randomly on the **left or right** side.
+3. **Respond fast:**
+   - **On desktop:** Press `A` for left, `D` for right
+   - **On mobile:** Tap the shape that appears
+4. You must respond **within 1 second**..
 
 ---
 
 ## Game Over Conditions
 
-- User pressed the wrong key
-- User pressed too early
-- User pressed too late
+- User pressed the **wrong key**
+- User pressed **too early**
+- User pressed **too late**
 
 ---
 

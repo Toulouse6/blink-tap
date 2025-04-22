@@ -21,7 +21,7 @@ const HeaderComponent: React.FC<GameHeaderProps> = ({
 
             {/* Reaction Time on success */}
             {feedback === 'success' && reactionTime !== null && (
-                <span className="header-reaction">⚡ {reactionTime}ms</span>
+                <span className="header-reaction">{reactionTime}ms</span>
             )}
             {/* Score */}
             {showScore && typeof score === 'number' && (

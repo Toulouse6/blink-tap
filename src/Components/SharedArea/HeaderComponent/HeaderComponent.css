@@ -6,7 +6,7 @@
     align-items: center;
     padding: 10px 0px;
     font-weight: 500;
-    font-size: 24px;
+    font-size: 20px;
     background: white;
     border-bottom: 1px solid #ccc;
     border-radius: 15px 15px 0 0;
@@ -21,13 +21,8 @@
 
 /* Username */
 .header-username,
-.header-score {
+.header-score,
+.header-reaction {
     color: #212721;
     margin: 0 2rem;
-}
-
-.header-reaction {
-    margin-left: 1rem;
-    font-size: 1rem;
-    color: #888;
 }

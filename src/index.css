@@ -81,6 +81,12 @@ body {
         margin: 1rem 0 1rem 0 !important;
     }
 
+    .header-username,
+    .header-score,
+    .header-reaction {
+        font-size: 20px !important;
+    }
+
     .start-container {
         max-width: 75% !important;
     }
